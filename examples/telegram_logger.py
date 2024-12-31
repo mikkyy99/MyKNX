@@ -1,34 +1,38 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.channels.SocketChannel;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
-import argparse
-import asyncio
-from knx import bus_monitor, coroutine
+public class TelegramLogger {
+    public static void main(String[] args) throws IOException {
+        if (args.length < 1) {
+            System.err.println("Usage: java TelegramLogger <host> [-p port]");
+            System.exit(1);
+        }
 
+        String host = args[0];
+        int port = 6720;
+        if (args.length == 3 && args[1].equals("-p")) {
+            port = Integer.parseInt(args[2]);
+        }
 
-@coroutine
-def logger():
-    while True:
-        line = (yield)
-        print(line)
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
 
+        try (SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress(host, port))) {
+            while (true) {
+                String line = readLine(socketChannel);
+                if (line != null) {
+                    System.out.println(line);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-def main():
-    p = argparse.ArgumentParser()
-    p.add_argument('host', type=str)
-    p.add_argument('-p', '--port', type=int, default=6720)
-
-    args = p.parse_args()
-
-    loop = asyncio.get_event_loop()
-    try:
-        loop.run_until_complete(
-            bus_monitor(logger(), host=args.host, port=args.port))
-    except KeyboardInterrupt:
-        pass
-    finally:
-        loop.close()
-
-
-if __name__ == "__main__":
-    main()
+    private static String readLine(SocketChannel socketChannel) {
+        // Implement the logic to read a line from the bus
+        return null;
+    }
+}
