@@ -11,12 +11,12 @@ knx
     :alt: Wheel
 
 .. image:: https://img.shields.io/pypi/v/knx.svg
-   :target: https://pypi.python.org/pypi/knx/
-   :alt: PyPI Version
+    :target: https://pypi.python.org/pypi/knx/
+    :alt: PyPI Version
 
 .. image:: https://img.shields.io/pypi/pyversions/knx.svg
-   :target: https://pypi.python.org/pypi/knx/
-   :alt: Python Version
+    :target: https://pypi.python.org/pypi/knx/
+    :alt: Python Version
 
 
 A minimalistic `KNX <https://en.wikipedia.org/wiki/KNX_%28standard%29>`_ / EIB
